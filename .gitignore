@@ -1,13 +1,10 @@
-# Données volumineuses
+# Données
 *.parquet
-*.npy
-*.pt
-
-# Config JSON de l'expérience
 M1199_PAG.json
 
-# Figures générées
-*.png
+# Outputs (modèles, prédictions, figures)
+outputs/
+figures/
 
 # macOS
 .DS_Store
