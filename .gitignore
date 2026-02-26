@@ -1,0 +1,22 @@
+# Données volumineuses
+*.parquet
+*.npy
+*.pt
+
+# Config JSON de l'expérience
+M1199_PAG.json
+
+# Figures générées
+*.png
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environnements
+.env
+.venv/
