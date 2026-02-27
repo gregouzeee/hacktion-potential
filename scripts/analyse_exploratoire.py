@@ -21,11 +21,12 @@ import os
 # Configuration
 # =============================================================================
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(PROJECT_DIR, "data")
 MOUSE = "M1199_PAG"
 STRIDE = 4
 WINDOW_SIZE = 108
-PARQUET_FILE = os.path.join(PROJECT_DIR, f"{MOUSE}_stride{STRIDE}_win{WINDOW_SIZE}_test.parquet")
-JSON_FILE = os.path.join(PROJECT_DIR, f"{MOUSE}.json")
+PARQUET_FILE = os.path.join(DATA_DIR, f"{MOUSE}_stride{STRIDE}_win{WINDOW_SIZE}_test.parquet")
+JSON_FILE = os.path.join(DATA_DIR, f"{MOUSE}.json")
 OUTPUT_DIR = os.path.join(PROJECT_DIR, "figures")
 
 # =============================================================================

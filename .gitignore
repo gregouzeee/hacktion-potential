@@ -1,6 +1,5 @@
 # Données
-*.parquet
-M1199_PAG.json
+data/
 
 # Outputs (modèles, prédictions, figures)
 outputs/

@@ -9,20 +9,25 @@ Projet de **decodage de la position spatiale** d'une souris a partir de l'activi
 - **Fenetres** : 108ms, stride 4, ~62k fenetres dont ~23k avec la souris en mouvement
 - **Target** : position (x, y) normalisee [0, 1]
 
-Les fichiers de donnees (`.parquet`, `.json`) ne sont pas inclus dans le repo. Placez-les a la racine du projet :
+Les fichiers de donnees (`.parquet`, `.json`) ne sont pas inclus dans le repo. Utilisez le script de telechargement :
+```bash
+python download_data.py                    # M1199_PAG stride4 win108 (defaut)
+python download_data.py --mouse M1162_MFB  # Autre souris
+python download_data.py --all              # Tous les fichiers
 ```
-hacktion-potential/
-  M1199_PAG_stride4_win108_test.parquet
-  M1199_PAG.json
-```
+Les fichiers sont telecharges dans `data/`.
+
+Sur **SSPCloud/Onyxia**, les notebooks detectent automatiquement le stockage S3 (MinIO) si les credentials sont disponibles.
 
 ## Structure du projet
 
 ```
+data/               # Donnees telechargees (.parquet, .json, .npy) [gitignored]
 notebooks/          # Notebooks d'experimentation (a executer dans l'ordre)
 scripts/            # Script d'analyse exploratoire
 outputs/            # Modeles sauvegardes (.pt), predictions (.npy) [gitignored]
 figures/            # Figures generees par le script EDA [gitignored]
+download_data.py    # Script de telechargement des donnees
 ```
 
 ## Notebooks
@@ -51,10 +56,8 @@ Metriques sur le test set (20% temporel) :
 ## Reproduction
 
 ```bash
-# Installer les dependances
-pip install pandas numpy scikit-learn xgboost torch matplotlib
-
-# Placer les donnees a la racine
+pip install -r requirements.txt
+python download_data.py
 # Puis executer les notebooks dans l'ordre (01 → 02 → 03 → 05 → 04)
 ```
 
