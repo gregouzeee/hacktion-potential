@@ -9,11 +9,10 @@ Projet de **decodage de la position spatiale** d'une souris a partir de l'activi
 - **Fenetres** : 108ms, stride 4, ~62k fenetres dont ~23k avec la souris en mouvement
 - **Target** : position (x, y) normalisee [0, 1]
 
-Les fichiers de donnees (`.parquet`, `.json`) ne sont pas inclus dans le repo. Utilisez le script de telechargement :
+Les fichiers de donnees ne sont pas inclus dans le repo. Utilisez le script de telechargement :
 ```bash
-python download_data.py                    # M1199_PAG stride4 win108 (defaut)
-python download_data.py --mouse M1162_MFB  # Autre souris
-python download_data.py --all              # Tous les fichiers
+python download_data.py              # Telecharge tous les fichiers (parquet, json, npy)
+python download_data.py --format t   # Version tfrec au lieu de parquet
 ```
 Les fichiers sont telecharges dans `data/`.
 

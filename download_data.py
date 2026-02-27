@@ -1,10 +1,9 @@
 """
-Télécharge les données depuis Google Cloud Storage.
+Télécharge toutes les données depuis Google Cloud Storage.
 
 Usage:
-    python download_data.py                    # Télécharge M1199_PAG stride4 win108 (par défaut)
-    python download_data.py --mouse M1162_MFB  # Autre souris/région
-    python download_data.py --all              # Tous les fichiers parquet
+    python download_data.py            # Télécharge tous les fichiers (parquet, json, npy)
+    python download_data.py --format t # Télécharge les tfrec au lieu des parquet
 """
 import os
 import argparse
@@ -33,31 +32,17 @@ def download_file(filename, dest_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Télécharge les données du hackathon")
-    parser.add_argument("--mouse", default="M1199_PAG",
-                        help="Identifiant souris_région (ex: M1199_PAG, M1162_MFB)")
-    parser.add_argument("--stride", default=4, type=int, help="Stride (1 ou 4)")
-    parser.add_argument("--win", default=108, type=int, help="Taille fenêtre (36, 108, 252)")
-    parser.add_argument("--all", action="store_true", help="Télécharger tous les fichiers parquet")
+    parser.add_argument("--format", choices=["p", "t"], default="p",
+                        help="Format: p=parquet (défaut), t=tfrec")
     args = parser.parse_args()
 
     os.makedirs(DATA_DIR, exist_ok=True)
 
     # Récupérer la liste des fichiers
     file_list = pd.read_csv(BASE_URL + "file_list.csv")
+    files = file_list[args.format].tolist()
 
-    if args.all:
-        files = [f for f in file_list["p"].tolist() if f.endswith(".parquet") or f.endswith(".json")]
-    else:
-        prefix = f"{args.mouse}_stride{args.stride}_win{args.win}"
-        # Trouver le JSON config (ex: M1199_PAG.json)
-        json_name = f"{args.mouse}.json"
-        files = [json_name, f"{prefix}_test.parquet"]
-        # Ajouter le speedMask si disponible
-        speedmask_name = f"{prefix}_speedMask_hab&pre.npy"
-        if speedmask_name in file_list["p"].values:
-            files.append(speedmask_name)
-
-    print(f"Téléchargement dans {DATA_DIR}/")
+    print(f"Téléchargement de {len(files)} fichiers dans {DATA_DIR}/")
     for f in files:
         download_file(f, DATA_DIR)
 
