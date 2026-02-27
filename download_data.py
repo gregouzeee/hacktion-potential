@@ -14,20 +14,28 @@ BASE_URL = "https://storage.googleapis.com/projet2_hacktion_potential/"
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 
-def download_file(filename, dest_dir):
-    """Télécharge un fichier depuis GCS dans dest_dir."""
+def download_file(filename, dest_dir, file_num=0, total_files=0):
+    """Télécharge un fichier depuis GCS dans dest_dir avec barre de progression."""
+    prefix = f"  [{file_num}/{total_files}]" if total_files else " "
     path = os.path.join(dest_dir, filename)
     if os.path.exists(path):
-        print(f"  Déjà présent : {filename}")
+        print(f"{prefix} Déjà présent : {filename}")
         return
-    print(f"  Téléchargement : {filename} ...", end=" ", flush=True)
     r = requests.get(BASE_URL + filename, stream=True)
     r.raise_for_status()
+    total_size = int(r.headers.get("content-length", 0))
+    downloaded = 0
     with open(path, "wb") as f:
         for chunk in r.iter_content(chunk_size=8192):
             f.write(chunk)
-    size_mb = os.path.getsize(path) / 1e6
-    print(f"{size_mb:.1f} MB")
+            downloaded += len(chunk)
+            if total_size > 0:
+                pct = downloaded / total_size * 100
+                bar_len = 30
+                filled = int(bar_len * downloaded / total_size)
+                bar = "█" * filled + "░" * (bar_len - filled)
+                print(f"\r{prefix} {filename}  {bar} {pct:5.1f}%  ({downloaded/1e6:.1f}/{total_size/1e6:.1f} MB)", end="", flush=True)
+    print()
 
 
 def main():
@@ -43,8 +51,8 @@ def main():
     files = file_list[args.format].tolist()
 
     print(f"Téléchargement de {len(files)} fichiers dans {DATA_DIR}/")
-    for f in files:
-        download_file(f, DATA_DIR)
+    for i, f in enumerate(files, 1):
+        download_file(f, DATA_DIR, file_num=i, total_files=len(files))
 
     print("Terminé !")
 
