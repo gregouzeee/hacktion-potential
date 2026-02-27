@@ -14,9 +14,7 @@ Les fichiers de donnees ne sont pas inclus dans le repo. Utilisez le script de t
 python download_data.py              # Telecharge tous les fichiers (parquet, json, npy)
 python download_data.py --format t   # Version tfrec au lieu de parquet
 ```
-Les fichiers sont telecharges dans `data/`.
-
-Sur **SSPCloud/Onyxia**, les notebooks detectent automatiquement le stockage S3 (MinIO) si les credentials sont disponibles.
+Les fichiers sont telecharges dans `data/`. Fonctionne partout (local, SSPCloud/Onyxia, Colab...).
 
 ## Structure du projet
 
