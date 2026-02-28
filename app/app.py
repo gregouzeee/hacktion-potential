@@ -68,9 +68,9 @@ N = data['n_points']
 
 # --- Sidebar ---
 st.sidebar.title("Controles")
-speed = st.sidebar.slider("Pas par frame", 1, 100, 5)
+speed = st.sidebar.slider("Pas par frame", 1, 100, 1)
 frame_delay = st.sidebar.slider("Delai (ms)", 20, 500, 80, step=10)
-trail_length = st.sidebar.slider("Trail", 10, 300, 60, step=10)
+trail_length = st.sidebar.slider("Trail", 10, 300, 80, step=10)
 show_1sigma = st.sidebar.checkbox("1-sigma", value=True)
 show_2sigma = st.sidebar.checkbox("2-sigma", value=True)
 
